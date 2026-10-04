@@ -1,0 +1,8 @@
+{
+    "quais são os top 10 filmes com maior receita em r$": "SELECT m.titulo, f.receita_brl FROM dim_movies m INNER JOIN fact_movies_performance f ON m.sk_movie_id = f.sk_movie_id ORDER BY f.receita_brl DESC LIMIT 10",
+    "qual o lucro médio por gênero, considerando apenas filmes com receita informada?": "SELECT dg.nome_genero, AVG(fmp.lucro_usd) AS lucro_medio FROM dim_genres dg JOIN bridge_movie_genre bmg ON dg.sk_genre_id = bmg.sk_genre_id JOIN fact_movies_performance fmp ON bmg.sk_movie_id = fmp.sk_movie_id WHERE fmp.receita_usd IS NOT NULL GROUP BY dg.nome_genero",
+    "quais são os 5 filmes mais populares?": "SELECT d.titulo, f.popularidade FROM dim_movies d JOIN fact_movies_performance f ON d.sk_movie_id = f.sk_movie_id ORDER BY f.popularidade DESC LIMIT 5",
+    "qual ator tem mais participações em filmes lançados nos últimos 5 anos?": "SELECT dp.nome_pessoa, COUNT(*) as participacoes FROM bridge_movie_person bmp JOIN dim_people dp ON bmp.sk_person_id = dp.sk_person_id JOIN dim_movies dm ON bmp.sk_movie_id = dm.sk_movie_id WHERE dp.tipo_pessoa = 'Ator' AND dm.data_lancamento >= date('now', '-5 years') GROUP BY dp.sk_person_id ORDER BY participacoes DESC LIMIT 1;",
+    "qual a quantidade de filmes por gênero?": "SELECT dg.nome_genero, COUNT(*) as qtd_filmes FROM dim_genres dg JOIN bridge_movie_genre bm ON dg.sk_genre_id = bm.sk_genre_id GROUP BY dg.nome_genero",
+    "top 10 filmes com maior receita": "SELECT d.titulo, f.receita_usd FROM dim_movies d JOIN fact_movies_performance f ON d.sk_movie_id = f.sk_movie_id ORDER BY f.receita_usd DESC LIMIT 10"
+}
